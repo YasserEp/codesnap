@@ -1,0 +1,94 @@
+#!/bin/bash
+case $1 in
+  -t)
+    case $2 in
+      --unicode)
+        text="$3"
+        for ((i = 0; i < ${#text}; i++)); do
+          printf "\\\u%04X" "'${text:$i:1}"
+        done
+        ;;
+      --unicode8)
+        text="$3"
+        for ((i = 0; i < ${#text}; i++)); do
+          printf "\\\U%08X" "'${text:$i:1}"
+        done
+        ;;        
+      --hexadecimal)
+        text="$3"
+        for ((i = 0; i < ${#text}; i++)); do
+          printf "\\\x%02X" "'${text:$i:1}"
+        done
+        ;;
+      --decode)
+        text="$3"
+        echo -e "$text"
+        ;;        
+      *)
+      echo "codesnap : try 'codesnap --help' for more information"
+        ;;        
+    esac
+    ;;
+  --unicode)
+      text="$(cat $2)"
+  if [ "$3" == "" ]; then
+    for ((i = 0; i < ${#text}; i++)); do
+      printf "\\\u%04X" "'${text:$i:1}"
+    done > $2
+    else
+    for ((i = 0; i < ${#text}; i++)); do
+      printf "\\\u%04X" "'${text:$i:1}"
+    done > $3
+    fi
+    ;;
+  --unicode8)
+      text="$(cat $2)"
+  if [ "$3" == "" ]; then
+    for ((i = 0; i < ${#text}; i++)); do
+      printf "\\\u%08X" "'${text:$i:1}"
+    done > $2
+    else
+    for ((i = 0; i < ${#text}; i++)); do
+      printf "\\\u%08X" "'${text:$i:1}"
+    done > $3
+    fi
+    ;;    
+  --hexadecimal)
+      text="$(cat $2)"
+if [ "$3" == "" ]; then
+    for ((i = 0; i < ${#text}; i++)); do
+      printf "\\\x%02X" "'${text:$i:1}"
+    done > $2
+    else
+    for ((i = 0; i < ${#text}; i++)); do
+      printf "\\\x%02X" "'${text:$i:1}"
+    done > $3
+    fi
+    ;;
+
+  --decode)
+      text="$(cat $2)"
+if [ "$3" == "" ]; then
+    echo -e "$text" > $2
+    else
+    echo -e "$text" > $3
+    fi
+    ;; 
+  --help)
+    echo "codesnap - encode and decode text and files
+    usage :
+	    codesnap -t <option> <text>
+	    codesnap <option> <file>
+	    codesnap <option> <file> <newfile>
+
+    options :
+	    --unicode     :  A > \u0041
+	    --unicode8    :  A > \U00000041
+	    --hexadecimal :  A > \x41
+	    --decode      :  *encode > *decode
+    "
+    ;;
+  *)
+    echo "codesnap : try 'codesnap --help' for more information"
+    ;;
+esac
