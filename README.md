@@ -8,4 +8,6 @@ cd codesnap
 
 chmod +x codesnap
 
-cp cnet ~/../usr/bin/
+dos2unix codesnap
+
+cp codesnap ~/../usr/bin/
